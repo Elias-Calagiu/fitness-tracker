@@ -28,3 +28,9 @@ function renderWorkoutPlans() {
     })
 }
 renderWorkoutPlans();
+
+$("#new-workout-plan").on("submit", (event)=>{
+    event.preventDefault()
+    const workoutPlan = $("#workout-plan").val().trim();
+    console.log(workoutPlan);
+})

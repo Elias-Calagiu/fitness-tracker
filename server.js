@@ -82,17 +82,34 @@ const seedData = [
     },
    
 ]
+
+app.get("/populatedWorkouts", (req,res)=>{
+    db.Weekday.find({})
+    .populate("workouts")
+    .then(dbWeekday =>{
+        res.json(dbWeekday)
+    }).catch(err =>{
+        console.log(err);
+        res.send(err)
+    })
+})
+
+
+app.post("/api/weeks", (req,res) =>{
+    
+})
 app.get('/', (req, res) => {
     res.sendFile("./index.html")
 })
 
-app.post("/createWorkout", (req, res) => {
-    db.Workout.create(req.body)
-}).then(dbPlan => {
-    res.json(dbPlan)
-}).catch(err => {
-    res.json(err)
-})
+// app.post("/createWorkout", (req, res) => {
+//     db.Workout.create(req.body)
+// })
+// .then(dbPlan => {
+//     res.json(dbPlan)
+// }).catch(err => {
+//     res.json(err)
+// })
 
 
 
