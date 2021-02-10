@@ -9,6 +9,12 @@ app.use(express.static("public"))
 
 app.use(compression());
 
+const db = require("./models");
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/fitness-trackerdb", { 
+    useNewUrlParser: true,
+    useFindAndModify: false,
+    useUnifiedTopology: true
+ });
 
 app.get('/', (req,res)=>{
     res.send("working")

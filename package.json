@@ -17,5 +17,10 @@
   "bugs": {
     "url": "https://github.com/Elias-Calagiu/fitness-tracker/issues"
   },
-  "homepage": "https://github.com/Elias-Calagiu/fitness-tracker#readme"
+  "homepage": "https://github.com/Elias-Calagiu/fitness-tracker#readme",
+  "dependencies": {
+    "compression": "^1.7.4",
+    "express": "^4.17.1",
+    "mongoose": "^5.11.15"
+  }
 }
