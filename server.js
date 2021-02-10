@@ -16,21 +16,81 @@ app.use(compression());
 const db = require("./models");
 
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/fitness-trackerdb", { 
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/fitness-trackerdb", {
     useNewUrlParser: true,
     useFindAndModify: false,
     useUnifiedTopology: true
- });
+});
 
-app.get('/', (req,res)=>{
+
+const seedData = [
+    {
+        name: "Romanian Deadlift",
+        weekDay: "Monday",
+        sets: 5,
+        reps: 10
+    },
+    {
+        name: "Bench Press",
+        weekDay: "Monday",
+        sets: 5,
+        reps: 10
+    },
+    {
+        name: "Jack Knives",
+        weekDay: "Monday",
+        sets: 5,
+        reps: 15
+    },
+   
+    {
+        name: "Romanian Deadlift",
+        weekDay: "Wednesday",
+        sets: 5,
+        reps: 10
+    },
+    {
+        name: "Bench Press",
+        weekDay: "Wednesday",
+        sets: 5,
+        reps: 10
+    },
+    {
+        name: "Jack Knives",
+        weekDay: "Wednesday",
+        sets: 5,
+        reps: 15
+    },
+   
+    {
+        name: "Romanian Deadlift",
+        weekDay: "Friday",
+        sets: 5,
+        reps: 10
+    },
+    {
+        name: "Bench Press",
+        weekDay: "Friday",
+        sets: 5,
+        reps: 10
+    },
+    {
+        name: "Jack Knives",
+        weekDay: "Friday",
+        sets: 5,
+        reps: 15
+    },
+   
+]
+app.get('/', (req, res) => {
     res.sendFile("./index.html")
 })
 
-app.post("/createWorkout", (req,res)=>{
+app.post("/createWorkout", (req, res) => {
     db.Workout.create(req.body)
-}).then(dbWorkout =>{
-    res.json(dbWorkout)
-}).catch(err =>{
+}).then(dbPlan => {
+    res.json(dbPlan)
+}).catch(err => {
     res.json(err)
 })
 
@@ -40,6 +100,6 @@ app.post("/createWorkout", (req,res)=>{
 
 
 
-app.listen(PORT, function(){
+app.listen(PORT, function () {
     console.log("App listening on: " + PORT);
 });

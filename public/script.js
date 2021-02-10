@@ -1,9 +1,10 @@
 function renderWorkoutPlans() {
+    $("weeks").empty();
     $.ajax({
         url: "/populatedWorkouts",
         method: "GET"
     }).then(dbData=>{
-        dbPlans.forEach(plan=> {
+        dbData.forEach(plan=> {
             const newDiv = $("<div>", {
                 style: "width: 25%; border: 2px solid black",
             })
@@ -17,9 +18,13 @@ function renderWorkoutPlans() {
 
             plan.workouts.forEach(workout=>{
                 const newPlan = $("<li>", {
-                    text: `Name: ${workout.name}/nSets: ${workout.sets}/nReps: ${workout.reps}`
+                    text: `Name: ${workout.name}/nWeekday: ${workout.weekday}/nSets: ${workout.sets}/nReps: ${workout.reps}`
                 })
+                newUL.append(newPlan)
             })
+            newDiv.append(newUL)
+            $("weeks").append(newDiv)
         })
     })
 }
+renderWorkoutPlans();
