@@ -95,8 +95,11 @@ app.get("/populatedWorkouts", (req,res)=>{
 })
 
 
-app.post("/api/weeks", (req,res) =>{
-    
+app.post("/api/createWorkout", ({ body },res) =>{
+db.Weekday.create(body)
+.then(dbWeekday =>{
+    res.json(dbWeekday)
+})
 })
 app.get('/', (req, res) => {
     res.sendFile("./index.html")
