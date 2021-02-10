@@ -105,17 +105,6 @@ app.get('/', (req, res) => {
     res.sendFile("./index.html")
 })
 
-// app.post("/createWorkout", (req, res) => {
-//     db.Workout.create(req.body)
-// })
-// .then(dbPlan => {
-//     res.json(dbPlan)
-// }).catch(err => {
-//     res.json(err)
-// })
-
-
-
 
 
 
