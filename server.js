@@ -23,10 +23,16 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/fitness-tracker
  });
 
 app.get('/', (req,res)=>{
-    console.log("working")
+    res.sendFile("./index.html")
 })
 
-
+app.post("/createWorkout", (req,res)=>{
+    db.Workout.create(req.body)
+}).then(dbWorkout =>{
+    res.json(dbWorkout)
+}).catch(err =>{
+    res.json(err)
+})
 
 
 
