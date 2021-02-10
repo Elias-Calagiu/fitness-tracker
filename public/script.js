@@ -22,6 +22,15 @@ function renderWorkoutPlans() {
                 })
                 newUL.append(newPlan)
             })
+            const newForm = $("<form>"), {
+                id: plan_id
+            }
+            const nameInput = $("<input>", {
+                type: "text",
+                id: `name-${plan._id}`,
+                placeholder: "Workout name"
+            })
+            newForm.append(nameInput);
             newDiv.append(newUL)
             $("weeks").append(newDiv)
         })

@@ -84,7 +84,7 @@ const seedData = [
 ]
 
 app.get("/populatedWorkouts", (req,res)=>{
-    db.Weekday.find({})
+    db.Weekday.find({seedData})
     .populate("workouts")
     .then(dbWeekday =>{
         res.json(dbWeekday)
@@ -96,7 +96,7 @@ app.get("/populatedWorkouts", (req,res)=>{
 
 
 app.post("/api/createWorkout", ({ body },res) =>{
-db.Weekday.create(seedData)
+db.Weekday.create(body)
 .then(dbWeekday =>{
     res.json(dbWeekday)
 })
