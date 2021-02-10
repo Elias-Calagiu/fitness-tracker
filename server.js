@@ -96,7 +96,7 @@ app.get("/populatedWorkouts", (req,res)=>{
 
 
 app.post("/api/createWorkout", ({ body },res) =>{
-db.Weekday.create(body)
+db.Weekday.create(seedData)
 .then(dbWeekday =>{
     res.json(dbWeekday)
 })
