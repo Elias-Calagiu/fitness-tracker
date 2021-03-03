@@ -82,9 +82,63 @@ const seedData = [
     },
    
 ]
+app.get('/seedworkoutplans', (req, res) => {
+    db.Workout.create(seedData)
+        .then(result => {
+            console.log(result)
+            db.Weekday.create([
+                {
+                    name: 'week 1',
+                    workouts: [
+                        result[Math.floor(Math.random() * result.length)]._id,
+                        result[Math.floor(Math.random() * result.length)]._id,
+                        result[Math.floor(Math.random() * result.length)]._id
+                    ]
+                },
+                {
+                    name: 'week 2',
+                    workouts: [
+                        result[Math.floor(Math.random() * result.length)]._id,
+                        result[Math.floor(Math.random() * result.length)]._id
+                    ]
+                },
+                {
+                    name: 'week 3',
+                    workouts: [
+                        result[Math.floor(Math.random() * result.length)]._id
+                    ]
+                },
+                {
+                    name: 'week 4',
+                    workouts: [
+                        result[Math.floor(Math.random() * result.length)]._id
+                    ]
+                },
+                {
+                    name: 'week 5',
+                    workouts: [
+                        result[Math.floor(Math.random() * result.length)]._id,
+                        result[Math.floor(Math.random() * result.length)]._id,
+                        result[Math.floor(Math.random() * result.length)]._id
+                    ]
+                },
 
+            ])
+                .then(fullRes => {
+                    // console.log(fullRes)
+                    res.json(fullRes)
+                })
+                .catch(err => {
+                    res.json(err)
+                })
+        })
+        .catch(err => {
+            // console.log(err)
+            res.json(err)
+        })
+})
 app.get("/populatedWorkouts", (req,res)=>{
-    db.Weekday.find({seedData})
+    db.Weekday.find({})
     .populate("workouts")
     .then(dbWeekday =>{
         res.json(dbWeekday)

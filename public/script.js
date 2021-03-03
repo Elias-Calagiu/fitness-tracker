@@ -12,27 +12,44 @@ function renderWorkoutPlans() {
                 text: plan.name
             })
             const newUL = $("<ul>", {
-                text: "Workouts"
+                text: "workouts"
             })
             newDiv.append(title)
 
             plan.workouts.forEach(workout=>{
                 const newPlan = $("<li>", {
-                    text: `Name: ${workout.name}/nWeekday: ${workout.weekday}/nSets: ${workout.sets}/nReps: ${workout.reps}`
+                    text: `Name: ${workout.name}\nWeekday: ${workout.weekDay}\nSets: ${workout.sets}\nReps: ${workout.reps}`
                 })
                 newUL.append(newPlan)
             })
-            const newForm = $("<form>"), {
-                id: plan_id
-            }
+            const newForm = $("<form>", {
+                id: plan._id
+            })
+            const newBtn = $("<button>", {
+                text: 'Add workout...',
+                class: 'update-btn',
+                'data-id': plan._id
+            })
             const nameInput = $("<input>", {
                 type: "text",
                 id: `name-${plan._id}`,
                 placeholder: "Workout name"
             })
-            newForm.append(nameInput);
-            newDiv.append(newUL)
-            $("weeks").append(newDiv)
+            const weekDayInput = $("<input>", {
+                type: "text",
+                id: `weekDay-${plan._id}`,
+            })
+            const setsInput = $("<input>", {
+                type: "number",
+                id: `sets-${plan._id}`,
+            })
+            const repsInput = $("<input>", {
+                type: "number",
+                id: `reps-${plan._id}`,
+            })
+            newForm.append(nameInput).append(weekDayInput).append(setsInput).append(repsInput);
+            newDiv.append(newUL).append(newForm);
+            $("#weeks").append(newDiv)
         })
     })
 }
@@ -43,8 +60,21 @@ $("#new-workout-plan").on("submit", (event)=>{
     const workoutPlan = $("#workout-plan").val().trim();
     console.log(workoutPlan);
     $.ajax({
-        url: "/api/createWorkouts",
+        url: "/api/createWorkout",
         method: "Post",
-        data: {name: workouts}
+        data: {name: workoutPlan}
     }).then(renderWorkoutPlans())
 })
+
+$("#weeks").on('click', ".update-btn",(event)=>{
+    event.preventDefault();
+    const weekId = event.target.dataset.id;
+    console.log(weekId);
+    const name = $(`#name-${weekId}`).val().trim();
+    const weekDay = $(`#weekDay-${weekId}`).val().trim();
+    const sets = parseInt($(`#sets-${weekId}`).val());
+    const reps = parseInt($(`#reps-${weekId}`).val());
+
+    const newObj = {
+        name, weekDay, sets, reps, weekId
+    }
