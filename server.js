@@ -22,6 +22,9 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/fitness-tracker
     useUnifiedTopology: true
 });
 
+app.get('/', (req, res) => {
+    res.sendFile("./index.html")
+})
 
 const seedData = [
     {
@@ -92,26 +95,36 @@ app.get('/seedworkoutplans', (req, res) => {
                     workouts: [
                         result[Math.floor(Math.random() * result.length)]._id,
                         result[Math.floor(Math.random() * result.length)]._id,
-                        result[Math.floor(Math.random() * result.length)]._id
+                        result[Math.floor(Math.random() * result.length)]._id,
+                        result[Math.floor(Math.random() * result.length)]._id,
+                        result[Math.floor(Math.random() * result.length)]._id,
                     ]
                 },
                 {
                     name: 'week 2',
                     workouts: [
                         result[Math.floor(Math.random() * result.length)]._id,
-                        result[Math.floor(Math.random() * result.length)]._id
+                        result[Math.floor(Math.random() * result.length)]._id,
+                        result[Math.floor(Math.random() * result.length)]._id,
+                        result[Math.floor(Math.random() * result.length)]._id,
                     ]
                 },
                 {
                     name: 'week 3',
                     workouts: [
-                        result[Math.floor(Math.random() * result.length)]._id
+                        result[Math.floor(Math.random() * result.length)]._id,
+                        result[Math.floor(Math.random() * result.length)]._id,
+                        result[Math.floor(Math.random() * result.length)]._id,
+                        result[Math.floor(Math.random() * result.length)]._id,
                     ]
                 },
                 {
                     name: 'week 4',
                     workouts: [
-                        result[Math.floor(Math.random() * result.length)]._id
+                        result[Math.floor(Math.random() * result.length)]._id,
+                        result[Math.floor(Math.random() * result.length)]._id,
+                        result[Math.floor(Math.random() * result.length)]._id,
+                        result[Math.floor(Math.random() * result.length)]._id,
                     ]
                 },
                 {
@@ -119,14 +132,15 @@ app.get('/seedworkoutplans', (req, res) => {
                     workouts: [
                         result[Math.floor(Math.random() * result.length)]._id,
                         result[Math.floor(Math.random() * result.length)]._id,
+                        result[Math.floor(Math.random() * result.length)]._id,
                         result[Math.floor(Math.random() * result.length)]._id
                     ]
                 },
 
             ])
-                .then(fullRes => {
+                .then(res => {
                     // console.log(fullRes)
-                    res.json(fullRes)
+                    res.json(res)
                 })
                 .catch(err => {
                     res.json(err)
@@ -155,10 +169,17 @@ db.Weekday.create(body)
     res.json(dbWeekday)
 })
 })
-app.get('/', (req, res) => {
-    res.sendFile("./index.html")
-})
 
+app.post('/api/workouts', (req, res) => {
+    console.log(req.body);
+    
+    db.Workout.create(req.body)
+    .then(dbWorkout => {
+        db.Weekday.findOneAndUpdate({_id:req.body.weekId}, {$push: {workouts: dbWorkout._id}})
+        .then(dbWeekday  => res.send(dbWeekday))
+    })
+    .catch(err => res.json(err))
+})
 
 
 

@@ -1,5 +1,5 @@
 function renderWorkoutPlans() {
-    $("weeks").empty();
+    $("#weeks").empty();
     $.ajax({
         url: "/populatedWorkouts",
         method: "GET"
@@ -26,7 +26,7 @@ function renderWorkoutPlans() {
                 id: plan._id
             })
             const newBtn = $("<button>", {
-                text: 'Add workout...',
+                text: 'Add workout',
                 class: 'update-btn',
                 'data-id': plan._id
             })
@@ -47,9 +47,9 @@ function renderWorkoutPlans() {
                 type: "number",
                 id: `reps-${plan._id}`,
             })
-            newForm.append(nameInput).append(weekDayInput).append(setsInput).append(repsInput);
+            newForm.append(nameInput).append(weekDayInput).append(setsInput).append(repsInput).append(newBtn);
             newDiv.append(newUL).append(newForm);
-            $("#weeks").append(newDiv)
+            $("#weeks").append(newDiv);
         })
     })
 }
@@ -65,7 +65,6 @@ $("#new-workout-plan").on("submit", (event)=>{
         data: {name: workoutPlan}
     }).then(renderWorkoutPlans())
 })
-
 $("#weeks").on('click', ".update-btn",(event)=>{
     event.preventDefault();
     const weekId = event.target.dataset.id;
@@ -75,6 +74,21 @@ $("#weeks").on('click', ".update-btn",(event)=>{
     const sets = parseInt($(`#sets-${weekId}`).val());
     const reps = parseInt($(`#reps-${weekId}`).val());
 
-    const newObj = {
+    const newWorkout = {
         name, weekDay, sets, reps, weekId
     }
+    console.log(newWorkout);
+
+    $.ajax({
+        url: "/api/workouts",
+        method: "POST",
+        data: newWorkout
+    })
+    .then(dbWorkouts => {
+        console.log(dbWorkouts)
+        renderWorkoutPlans();
+    })
+    .catch(err => {
+        console.log(err);
+    })
+})
